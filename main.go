@@ -43,8 +43,25 @@ func main() {
 	blogGroupApi.Get("", func(c *fiber.Ctx) error {
 		return getBlogs(db, c)
 	})
+	blogGroupApi.Post("", func(c *fiber.Ctx) error {
+		return createBlog(db, c)
+	})
 	blogGroupApi.Get("/authors", func(c *fiber.Ctx) error {
 		return getBlogsWithAuthor(db, c)
+	})
+	blogGroupApi.Get("/:blog_id", func(c *fiber.Ctx) error {
+		return getBlog(db, c)
+	})
+	blogGroupApi.Get("/:blog_id/authors", func(c *fiber.Ctx) error {
+		return getBlogWithAuthor(db, c)
+	})
+
+	authorGroupApi := app.Group("/authors")
+	authorGroupApi.Post("", func(c *fiber.Ctx) error {
+		return register(db, c)
+	})
+	authorGroupApi.Get("", func(c *fiber.Ctx) error {
+		return getAuthors(db, c)
 	})
 
 	app.Listen("localhost:8080")
